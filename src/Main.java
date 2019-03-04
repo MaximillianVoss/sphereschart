@@ -28,8 +28,8 @@ public class Main {
         ArrayList<ArrayList<Double>> data2;
         data2 = read.readModData();
 
-        ModifiedProblem problem2 = new ModifiedProblem(data2);
-        problem2.countDot();
+//        ModifiedProblem problem2 = new ModifiedProblem(data2);
+//        problem2.countDot();
 
         ChangingData cd = new ChangingData(read.getCentreB(), read.getAllData());
         cd.solve();

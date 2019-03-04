@@ -7,11 +7,10 @@ public class ChangingData {
     private ArrayList<ArrayList<Double>> data2;
     private ArrayList<ArrayList<Double>> finalData;
     private ArrayList<Double> resDelta;
+    private final double DELTA = 0.00001;
 
-    //private List<Double> centreA;
 
     public ChangingData(List<Double> centreB, ArrayList<ArrayList<Double>> data2) {
-        //this.centreA = centreA;
         this.centreB = centreB;
         this.data2 = data2;
         this.finalData  = new ArrayList<>();
@@ -27,33 +26,28 @@ public class ChangingData {
         problem1.countDot();
 
         ArrayList<Double> newData =  new ArrayList<>();
-        //List<Double> centre1 =  centre;
 
-        //цикл по размеру дельта
-        for (int i = 2; i <= 4; i++) { // разобраться при i = 3!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! (?????)
-            List<Double> centre1 =  centre; //разобраться!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        List<Double> centre1 =  centre;
 
-
-            double delta = Math.pow(10, -i);
-            //цикл по точкам
-            for (int j = 0; j < centre.size(); j += 1) {
-                centre1.set(j, centre.get(j) + delta);
-            }
-
-            newData.addAll(centre1);
-            newData.add(data2.get(1).get(3)); //добавили радиус
-
-            finalData.add(data2.get(0));
-            finalData.add(newData);
-
-            //решаем задачу с изменненными данными
-            ModifiedProblem problem2 = new ModifiedProblem(finalData);
-            problem2.countDot();
-
-            resDelta.add(delta);
-            CountDelta(problem1, problem2);
-            centre1.clear();
+        double delta = DELTA;
+        //цикл по точкам
+        for (int j = 0; j < centre.size(); j += 1) {
+            centre1.set(j, centre.get(j) + delta);
         }
+
+        newData.addAll(centre1);
+        newData.add(data2.get(1).get(3)); //добавили радиус
+
+        finalData.add(data2.get(0));
+        finalData.add(newData);
+
+        //решаем задачу с изменненными данными
+        ModifiedProblem problem2 = new ModifiedProblem(finalData);
+        problem2.countDot();
+
+        resDelta.add(delta);
+        CountDelta(problem1, problem2);
+        centre1.clear();
     }
 
     private void CountDelta(ModifiedProblem mp1, ModifiedProblem mp2) {
