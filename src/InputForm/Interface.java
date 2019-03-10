@@ -21,6 +21,7 @@ public class Interface extends JFrame {
     public MySphere points[];
     public MyLine line;
     public Boolean dataReady = false;
+    public Boolean drawStarted = false;
     //</editor-fold>
 
     //<editor-fold desc="Private fields">
@@ -72,7 +73,20 @@ public class Interface extends JFrame {
     //</editor-fold>
 
     public Interface() {
+
         super("TPF");
+
+        inputRA.setText("10");
+        inputXA.setText("0");
+        inputYA.setText("0");
+        inputZA.setText("0");
+
+        inputRB.setText("10");
+        inputXB.setText("100");
+        inputYB.setText("100");
+        inputZB.setText("100");
+
+
         this.setBounds(100, 100, 300, 400);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
@@ -228,6 +242,8 @@ public class Interface extends JFrame {
         gbc.gridx = 1;
         gbc.gridy = 9;
         container.add(outputZ, gbc);
+
+
     }
 
     class ButtonEventListener implements ActionListener {
@@ -315,6 +331,17 @@ public class Interface extends JFrame {
             CommonData.line = line;
             CommonData.points = points;
             CommonData.spheres = spheres;
+
+
+            if (!drawStarted) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Application.launch(DrawApp.class, new String[]{});
+                    }
+                }).start();
+                drawStarted=true;
+            }
         }
 
         public double countAngle(double a, double b) {

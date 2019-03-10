@@ -5,9 +5,12 @@ import InputForm.Interface;
 import Shapes.MyLine;
 import Shapes.MyPoint;
 import Shapes.MySphere;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.paint.Color;
@@ -24,6 +27,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 import javafx.scene.Node;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class DrawApp extends Application {
 
@@ -77,6 +83,16 @@ public class DrawApp extends Application {
         return line;
     }
 
+    private void clearAll() {
+        world.getChildren().clear();
+        root.getChildren().clear();
+        axisGroup.getChildren().clear();
+        moleculeGroup.getChildren().clear();
+        cameraXform.getChildren().clear();
+        cameraXform2.getChildren().clear();
+        cameraXform3.getChildren().clear();
+    }
+
     private void buildScene() {
         System.out.println("buildScene");
         root.getChildren().add(world);
@@ -97,6 +113,7 @@ public class DrawApp extends Application {
     }
 
     private void buildAxes() {
+
         System.out.println("buildAxes()");
         final PhongMaterial redMaterial = new PhongMaterial();
         redMaterial.setDiffuseColor(Color.DARKRED);
@@ -331,50 +348,60 @@ public class DrawApp extends Application {
         super.init();
     }
 
+
+    void Update() {
+
+
+    }
+
     @Override
     public void start(Stage primaryStage) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                Interface app = new Interface();
-                app.setVisible(true);
-            }
-        });
+
+//        Platform.runLater(() -> {
+//            Interface app = new Interface();
+//            app.setVisible(true);
+//        });
 
 
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                //<editor-fold desc="Draw figures">
-                Scene scene = new Scene(root, 800, 800, true);
-                scene.setFill(Color.GREY);
-                handleKeyboard(scene, world);
-                handleMouse(scene, world);
+        //<editor-fold desc="Draw figures">
+        Scene scene = new Scene(root, 800, 800, true);
+        scene.setFill(Color.GREY);
+        handleKeyboard(scene, world);
+        handleMouse(scene, world);
+        primaryStage.setTitle("Chart");
 
 
-                primaryStage.setTitle("Molecule Sample Application");
-                primaryStage.setScene(scene);
-                scene.setCamera(camera);
-                primaryStage.show();
-                while (true) {
-                    if (CommonData.dataReady) {
-                        root.getChildren().clear();
-                        buildScene();
-                        buildCamera();
-                        buildAxes();
-                        buildFigure(
-                                CommonData.spheres,
-                                CommonData.points,
-                                CommonData.line
-                        );
-                    }
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(0),
+                        new EventHandler<ActionEvent>() {
+                            @Override public void handle(ActionEvent actionEvent) {
+                                clearAll();
+                                buildScene();
+                                buildCamera();
+                                buildAxes();
+                                buildFigure(
+                                        CommonData.spheres,
+                                        CommonData.points,
+                                        CommonData.line
+                                );
+                            }
+                        }
+                ),
 
-                }
+                new KeyFrame(Duration.seconds(1))
+        );
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
 
 
-                //</editor-fold>
-            }
-        });
+
+        CommonData.dataReady = false;
+        primaryStage.setScene(scene);
+        scene.setCamera(camera);
+        primaryStage.show();
+
+
+        //</editor-fold>
 
 
     }
