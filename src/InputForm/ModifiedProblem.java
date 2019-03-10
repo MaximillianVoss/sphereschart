@@ -1,3 +1,5 @@
+package InputForm;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,15 +16,15 @@ public class ModifiedProblem {
     private Double RadiusA;
     private Double RadiusB;
 
-    private ArrayList<ArrayList<Double>> resDots;
+    public ArrayList<ArrayList<Double>> resDots;
     private ArrayList<Double> resDot;
 
-    public ModifiedProblem (ArrayList<ArrayList<Double>> data) {
+    public ModifiedProblem(ArrayList<ArrayList<Double>> data) {
         this.sphereA = data.get(0);
         this.sphereB = data.get(1);
 
-        this.centreA = data.get(0).subList(0,3);
-        this.centreB = data.get(1).subList(0,3);
+        this.centreA = data.get(0).subList(0, 3);
+        this.centreB = data.get(1).subList(0, 3);
 
         this.RadiusA = data.get(0).get(3);
         this.RadiusB = data.get(1).get(3);
@@ -40,13 +42,13 @@ public class ModifiedProblem {
         try {
 
             if (resDots.size() == 2) {
-                double len1  = getLength(resDots.get(0).get(0), resDots.get(0).get(1), resDots.get(0).get(2));
-                double len2  = getLength(resDots.get(1).get(0), resDots.get(1).get(1), resDots.get(1).get(2));
+                double len1 = getLength(resDots.get(0).get(0), resDots.get(0).get(1), resDots.get(0).get(2));
+                double len2 = getLength(resDots.get(1).get(0), resDots.get(1).get(1), resDots.get(1).get(2));
                 resDot = len1 > len2 ? resDots.get(0) : resDots.get(1);
 
             } else resDot = resDots.get(0);
 
-            System.out.printf("(%.7f, %.7f, %.7f)%n",resDot.get(0),resDot.get(1),resDot.get(2));
+            //System.out.printf("(%.7f, %.7f, %.7f)%n",resDot.get(0),resDot.get(1),resDot.get(2));
 
             //System.out.println("(" + resDot.get(0) + ", " + resDot.get(1) + ", " + resDot.get(2) + ")");
 
@@ -81,7 +83,7 @@ public class ModifiedProblem {
 
         a = Math.pow(i, 2) + Math.pow(j, 2) + Math.pow(k, 2);
         b = 2 * (i * (x1 - l) + j * (y1 - m) + k * (z1 - n));
-        c = Math.pow((x1 - l), 2) + Math.pow((y1 - m), 2) + Math.pow((z1 - n), 2)  - Math.pow(RadiusB, 2);
+        c = Math.pow((x1 - l), 2) + Math.pow((y1 - m), 2) + Math.pow((z1 - n), 2) - Math.pow(RadiusB, 2);
 
         quadraticEquation(a, b, c);
     }
@@ -147,6 +149,11 @@ public class ModifiedProblem {
     public ArrayList<Double> getResult() {
         return resDot;
     }
+
+    public ArrayList<Double> getLineDir() {
+        return normalPlaneVector;
+    }
+
 }
 
 //найти напрвляющий вектор

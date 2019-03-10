@@ -1,3 +1,5 @@
+package InputForm;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +9,7 @@ public class ChangingData {
     private ArrayList<ArrayList<Double>> data2;
     private ArrayList<ArrayList<Double>> finalData;
     private ArrayList<Double> resDelta;
-    private final double DELTA = 0.00001;
+    private final double DELTA = 0.01;
 
 
     public ChangingData(List<Double> centreB, ArrayList<ArrayList<Double>> data2) {

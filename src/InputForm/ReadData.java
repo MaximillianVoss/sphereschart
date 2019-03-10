@@ -1,3 +1,5 @@
+package InputForm;
+
 import javafx.scene.shape.Sphere;
 
 import java.io.*;
