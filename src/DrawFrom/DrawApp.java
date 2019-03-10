@@ -1,15 +1,12 @@
 package DrawFrom;
 
 import Data.CommonData;
-import InputForm.Interface;
 import Shapes.MyLine;
-import Shapes.MyPoint;
 import Shapes.MySphere;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
@@ -27,9 +24,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 import javafx.scene.Node;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class DrawApp extends Application {
 
@@ -88,9 +82,9 @@ public class DrawApp extends Application {
         root.getChildren().clear();
         axisGroup.getChildren().clear();
         moleculeGroup.getChildren().clear();
-        cameraXform.getChildren().clear();
-        cameraXform2.getChildren().clear();
-        cameraXform3.getChildren().clear();
+        //cameraXform.getChildren().clear();
+        //cameraXform2.getChildren().clear();
+        //cameraXform3.getChildren().clear();
     }
 
     private void buildScene() {
@@ -348,20 +342,8 @@ public class DrawApp extends Application {
         super.init();
     }
 
-
-    void Update() {
-
-
-    }
-
     @Override
     public void start(Stage primaryStage) {
-
-//        Platform.runLater(() -> {
-//            Interface app = new Interface();
-//            app.setVisible(true);
-//        });
-
 
         //<editor-fold desc="Draw figures">
         Scene scene = new Scene(root, 800, 800, true);
@@ -370,21 +352,20 @@ public class DrawApp extends Application {
         handleMouse(scene, world);
         primaryStage.setTitle("Chart");
 
+        buildCamera();
+
 
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(0),
-                        new EventHandler<ActionEvent>() {
-                            @Override public void handle(ActionEvent actionEvent) {
-                                clearAll();
-                                buildScene();
-                                buildCamera();
-                                buildAxes();
-                                buildFigure(
-                                        CommonData.spheres,
-                                        CommonData.points,
-                                        CommonData.line
-                                );
-                            }
+                        actionEvent -> {
+                            clearAll();
+                            buildScene();
+                            buildAxes();
+                            buildFigure(
+                                    CommonData.spheres,
+                                    CommonData.points,
+                                    CommonData.line
+                            );
                         }
                 ),
 
@@ -392,7 +373,6 @@ public class DrawApp extends Application {
         );
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
-
 
 
         CommonData.dataReady = false;

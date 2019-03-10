@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class Interface extends JFrame {
+public class InputForm extends JFrame {
     //<editor-fold desc="Public Fields">
     public MySphere spheres[];
     public MySphere points[];
@@ -72,7 +72,7 @@ public class Interface extends JFrame {
     private JCheckBox check = new JCheckBox("Check", false);
     //</editor-fold>
 
-    public Interface() {
+    public InputForm() {
 
         super("TPF");
 
@@ -82,9 +82,9 @@ public class Interface extends JFrame {
         inputZA.setText("0");
 
         inputRB.setText("10");
-        inputXB.setText("100");
-        inputYB.setText("100");
-        inputZB.setText("100");
+        inputXB.setText("50");
+        inputYB.setText("50");
+        inputZB.setText("50");
 
 
         this.setBounds(100, 100, 300, 400);
@@ -321,10 +321,10 @@ public class Interface extends JFrame {
                     )
             };
             points = new MySphere[]{
-                    new MySphere(p3, 5),
-                    new MySphere(p4, 5)
+                    //new MySphere(p3, 5)
+                    new MySphere(p4, 2)
             };
-            line = new MyLine(p3, p4);
+            line = new MyLine(p1, p4);
             dataReady = true;
 
             CommonData.dataReady = dataReady;
@@ -334,13 +334,8 @@ public class Interface extends JFrame {
 
 
             if (!drawStarted) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Application.launch(DrawApp.class, new String[]{});
-                    }
-                }).start();
-                drawStarted=true;
+                new Thread(() -> Application.launch(DrawApp.class, new String[]{})).start();
+                drawStarted = true;
             }
         }
 
